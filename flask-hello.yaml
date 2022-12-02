@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-hello-deployment
+  labels:
+    app: flask-hello
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-hello
+  template:
+    metadata:
+      labels:
+        app: flask-hello
+    spec:
+      containers:
+      - name: flask-hello
+        image: audiazzura23/python-flask
+        ports:
+        - containerPort: 5000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-hello-service
+  labels:
+    app: flask-hello
+spec:
+  type: NodePort
+  ports:
+  - port: 5000
+    targetPort: 5000
+  selector:
+    app: flask-hello
